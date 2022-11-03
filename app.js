@@ -6,7 +6,7 @@ const app = express();
 
 const port = 3000;
 
-dboperation.getUsers().then(res=> {
+dboperation.getUsers().then(res => {
     console.log(res);
 })
 

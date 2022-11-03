@@ -1,8 +1,8 @@
 const config = {
-    user: "group9pos",
-    password: "COSC3380!",
-    server: "group9pos.database.windows.net",
-    database: "Group9POS",
+    user: "groupninepos",
+    password: "Group9pos",
+    server: "groupninpos.database.windows.net",
+    database: "group9POS",
     options: {
         enableArithAbort: true,
         encrypt: true
