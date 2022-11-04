@@ -12,6 +12,17 @@ const getUsers = async() => {
     }
 }
 
+const insertQuery = async(query) => {
+    try {
+        let pool = await sql.connect(config);
+        pool.request().query(query);
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    getUsers
+    getUsers : getUsers,
+    insertQuery : insertQuery
 }
