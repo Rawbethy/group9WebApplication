@@ -8,22 +8,18 @@ var config = require('./dbconfig');
 var sql = require('mssql');
 var session = require('express-session');
 var flash = require('connect-flash');
-
 var app = express();
-
 
 var index = require('./routes/index')
 var insertForm = require('./routes/insertForm')
 var viewInventory = require('./routes/viewInventory');
 var main = require('./routes/main');
+var logout = require('./routes/logout');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
@@ -42,6 +38,7 @@ app.use('/', index)
 app.use('/main', main)
 app.use('/insertForm', insertForm);
 app.use('/viewInventory', viewInventory);
+app.use('/logout', logout);
 app.use(express.static("public"));
 
 
@@ -52,17 +49,18 @@ app.post('/', function(req, res) {
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();
-        request.query(query, function(err, recordset) {
+        request.query(query, function(err, row) {
             if(err) {
                 req.flash('message', 'Something went wrong, please try again');
                 res.redirect('/');
             }
-            if(recordset.recordsets[0].length == 0) {
+            if(row.recordsets[0].length == 0) {
                 req.flash('message', 'Username and/or Password is incorrect. Please try again');
                 res.redirect('/');
             }
             else {
-                res.redirect('/main');
+                req.session.user = row.recordsets[0][0].userID;
+                res.render('main', {userID: row.recordsets[0][0].userID});
             }
         })
     })

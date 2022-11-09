@@ -18,7 +18,7 @@ router.get('/', function(req, res, next) {
                 res.redirect('/');
             }
             else {
-                console.log(rows.recordsets[0]);
+                console.log(req.session.user);
                 res.render('viewInventory', {data: rows.recordsets[0]});
             }
         })

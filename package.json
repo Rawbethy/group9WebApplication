@@ -18,6 +18,7 @@
     "express-session": "^1.17.3",
     "morgan": "^1.10.0",
     "mssql": "^9.0.1",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "path": "^0.12.7"
   }
 }
