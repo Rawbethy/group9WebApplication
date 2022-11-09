@@ -4,13 +4,17 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const config = require('./dbconfig');
-const sql = require('mssql');
+var config = require('./dbconfig');
+var sql = require('mssql');
+var session = require('express-session');
+var flash = require('connect-flash');
+
 var app = express();
 
 
 var index = require('./routes/index')
 var insertForm = require('./routes/insertForm')
+var viewInventory = require('./routes/viewInventory');
 var main = require('./routes/main');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -25,11 +29,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session({
+    secret: 'secret',
+    cookie: {maxAge : 60000},
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(flash());
 
 
 app.use('/', index)
 app.use('/main', main)
 app.use('/insertForm', insertForm);
+app.use('/viewInventory', viewInventory);
 app.use(express.static("public"));
 
 
@@ -41,9 +53,13 @@ app.post('/', function(req, res) {
         if(err) console.log(err);
         var request = new sql.Request();
         request.query(query, function(err, recordset) {
-            if(err) console.log(err);
+            if(err) {
+                req.flash('message', 'Something went wrong, please try again');
+                res.redirect('/');
+            }
             if(recordset.recordsets[0].length == 0) {
-                res.send("Username and/or Password is incorrect");
+                req.flash('message', 'Username and/or Password is incorrect. Please try again');
+                res.redirect('/');
             }
             else {
                 res.redirect('/main');

@@ -51,6 +51,10 @@ form {
   .container {
     padding: 16px;
   }
+
+ .alert {
+    color: red;
+ }
   
   /* The "Forgot password" text */
   span.psw {
