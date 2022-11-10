@@ -13,7 +13,8 @@ var app = express();
 var index = require('./routes/index')
 var insertForm = require('./routes/insertForm')
 var viewInventory = require('./routes/viewInventory');
-var main = require('./routes/main');
+var mainAdmin = require('./routes/mainAdmin');
+var mainUser = require('./routes/mainUser');
 var logout = require('./routes/logout');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
@@ -35,7 +36,8 @@ app.use(flash());
 
 
 app.use('/', index)
-app.use('/main', main)
+app.use('/mainAdmin', mainAdmin)
+app.use('/mainUser', mainUser);
 app.use('/insertForm', insertForm);
 app.use('/viewInventory', viewInventory);
 app.use('/logout', logout);
@@ -59,8 +61,14 @@ app.post('/', function(req, res) {
                 res.redirect('/');
             }
             else {
-                req.session.user = row.recordsets[0][0].userID;
-                res.render('main', {userID: row.recordsets[0][0].userID});
+                var session = req.session;
+                session.user = row.recordsets[0][0].userID;
+                if(row.recordsets[0][0].isAdmin == 1) {
+                    res.render('mainAdmin', {userID: session.user});
+                }
+                else {
+                    res.render('mainUser', {userID: session.user});
+                }
             }
         })
     })

@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET login page. */
 router.get('/', function(req, res, next) {
     req.session.destroy();
-    res.send("User logged out")
+    res.redirect('/');
 });
 
 module.exports = router;

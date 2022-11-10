@@ -2,14 +2,8 @@ const config = require('./dbconfig');
 const sql = require('mssql');
 const { response } = require('./app');
 
-const validateUser = async(query) => {
-    try {
-        let pool = await sql.connect(config);
-        pool.request().query(query);
-    }
-    catch(error) {
-        console.log(error);
-    }
+const getProducts = async(query) => {
+
 }
 
 const getUsers = async() => {
@@ -43,5 +37,5 @@ const insertQuery = async(query) => {
 module.exports = {
     getUsers : getUsers,
     insertQuery : insertQuery,
-    validateUser : validateUser
+    getProducts : getProducts
 }

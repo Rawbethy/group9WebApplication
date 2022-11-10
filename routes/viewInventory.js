@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
             }
             if(rows.length == 0) {
                 req.flash('message', 'No Data in Inventory');
-                res.redirect('/');
+                res.redirect('mainAdmin');
             }
             else {
                 console.log(req.session.user);
