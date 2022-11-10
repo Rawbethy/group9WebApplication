@@ -1,0 +1,27 @@
+
+.myNav {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    background-color: #333;
+}
+
+.myNav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.myNav li {
+    float: left;
+
+}
+
+.myNav li a {
+    display: inline-block;
+    text-align: center;
+    padding: 14px 16px;
+}
+
+.myNav li a.active {
+    background-color: #3786E1;
+}
