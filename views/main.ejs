@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group9OnlineStore</title>
-    <link rel="stylesheet" href="stylesheets/main.css">
-</head>
-<body>
+<%- include('./partials/header') %>
+
     <style>
         body {
             background-image: url("images/main-background.jpg");
@@ -17,26 +9,6 @@
             background-repeat: no-repeat;
         }
     </style>
-    <div class="container">
-        <div class="navbar">
-            <nav>
-                <ul>
-                    <li><a href="/main">Home</a></li>
-                    <li><a href="">Products</a></li>
-                    <li><a href="">About</a></li>
-                    <li><a href="">Contact</a></li>
-                    <li><a href="/">Login</a></li>
-                    <div class="dropdown">
-                        <button class = "dropbtn">Admnin Actions</button>
-                        <div class="dropdown-content">
-                            <a href='insertForm'>Insert Product</a>
-                            <a href="">Delete Product</a>
-                            <a href="/viewInventory">View Inventory</a>
-                        </div>
-                    </div>
-                </ul>
-            </nav>
-        </div>
         <div class="row">
             <div class="col-2">
                 <h1>Give Your Workout <br>A New Style!</h1>
@@ -46,7 +18,4 @@
             </div>
         </div>
     </div>
-
-
-</body>
-</html>
+    <%- include('./partials/footer') %>
