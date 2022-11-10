@@ -10,8 +10,9 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var app = express();
 
-var index = require('./routes/index')
-var insertForm = require('./routes/insertForm')
+var index = require('./routes/index');
+var productCatalog = require('./routes/productCatalog');
+var insertForm = require('./routes/insertForm');
 var viewInventory = require('./routes/viewInventory');
 var mainAdmin = require('./routes/mainAdmin');
 var mainUser = require('./routes/mainUser');
@@ -36,6 +37,7 @@ app.use(flash());
 
 
 app.use('/', index)
+app.use('/productCatalog', productCatalog);
 app.use('/mainAdmin', mainAdmin)
 app.use('/mainUser', mainUser);
 app.use('/insertForm', insertForm);
