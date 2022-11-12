@@ -63,13 +63,13 @@ app.post('/', function(req, res) {
                 res.redirect('/');
             }
             else {
-                var session = req.session;
-                session.user = row.recordsets[0][0].userID;
+                req.session.userID = row.recordsets[0][0].userID;
+                req.session.isAdmin = row.recordsets[0][0].isAdmin;
                 if(row.recordsets[0][0].isAdmin == 1) {
-                    res.render('mainAdmin', {userID: session.user});
+                    res.redirect('mainAdmin');
                 }
                 else {
-                    res.render('mainUser', {userID: session.user});
+                    res.redirect('mainUser');
                 }
             }
         })

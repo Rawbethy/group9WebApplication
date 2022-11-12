@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Product Form</title>
+    <link rel="stylesheet" href="stylesheets/loginCSS.css">
+</head>
+<body>
+  <%if(isAdmin == 1) {%>
+    <%- include('./partials/headerAdmin') %>
+<%}%>
+<%if(isAdmin == 0) {%>
+    <%- include('./partials/headerUser') %>
+<%}%>
+    <form action='/insertForm' method="POST">
+        <div class="container">
+          <label for="productName"><b>Product Name</b></label>
+          <input type="text" placeholder="Enter Product Name" name="productName" required>
+
+          <label for="productType"><b>Product Type</b></label>
+          <input type="text" placeholder="Enter Product Type" name="productType" required>
+
+          <label for="productDesc"><b>Product Description</b></label>
+          <input type="text" placeholder="Enter Product Description" name="productDesc" required>
+
+          <label for="price"><b>Product Price</b></label>
+          <input type="text" placeholder="Enter Product Price" name="price" required>
+
+          <label for="productQuantity"><b>Product Quantity</b></label>
+          <input type="text" placeholder="Enter Product Qunatity" name="productQuantity" required>
+
+          <label for="discount"><b>Initial Discount</b></label>
+          <input type="text" placeholder="Enter Product Discount" name="discount" required>
+      
+          <button type = "submit"><a href="/main">Insert</a></button>
+        </div>
+      
+        <div class="container" style="background-color:#f1f1f1">
+          <a href='/mainAdmin'>Go Back</a>
+        </div>
+      </form>
+</body>
+</html>
