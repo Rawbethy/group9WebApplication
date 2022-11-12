@@ -1,36 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="stylesheets/loginCSS.css">
-</head>
-<body>
-    <form action='/' method="post">
+<%- include('./partials/header') %>
+  <div class="container">
       
-        <div class="container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" required>
-      
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" required>
-          <% if(message.length > 0) { %>
-            <div class = "alert" role = "alert">
-                <%= message %>
-            </div>
-          <%} %>
-          <button type="submit">Login</button>
-          <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-          </label>
-        </div>
-
-        <div class="container" style="background-color:#f1f1f1">
-          <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
-      </form>
-    
+      <div class="row">
+          <div class="col-2">
+              <h1>Give Your Workout <br>A New Style!</h1>
+              <p>Success isn't always about greatness, It's about consistency. <br> 
+                  Consistent hard work gains 
+                  success. <br> Greateness will come</p>
+          </div>
+      </div>
+  </div>
 </body>
-</html>
+<body>
+  <style>
+      body {
+          background-image: url("images/main-background.jpg");
+          height: 100%;
+          background-attachment: fixed;
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
+  </style>
+  </body>
+<body>
+  <form action='/' method="post">
+    
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+    
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+        <% if(message.length > 0) { %>
+          <div class = "alert" role = "alert">
+              <%= message %>
+          </div>
+        <%} %>
+        <button type="submit">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+
+    
+      <div class="container" style="background-color:#f1f1f1">
+        <span class="psw">Forgot <a href="/contact">password?</a></span>
+      </div>
+      <div class="container" style="background-color:#f1f1f1">
+          <a class="nav-link" href="/productCatalog">Continue Shopping as Guest <span class="sr-only">(current)</span></a>
+      </div>
+    </form>
+<%- include('./partials/footer') %>
