@@ -4,8 +4,7 @@ var router = express.Router();
 
 /* GET login page. */
 router.get('/', function(req, res, next) {
-    var userID = req.session.user
-    res.render('mainUser', { title: 'Home Page', userID: userID});
+  res.render('login', { title: 'Login Page'});
 });
 
 module.exports = router;

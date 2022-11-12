@@ -17,6 +17,12 @@ var viewInventory = require('./routes/viewInventory');
 var mainAdmin = require('./routes/mainAdmin');
 var mainUser = require('./routes/mainUser');
 var logout = require('./routes/logout');
+var contact = require('./routes/contact');
+var about = require('./routes/about');
+var login = require('./routes/login');
+
+
+
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
@@ -38,11 +44,14 @@ app.use(flash());
 
 app.use('/', index)
 app.use('/productCatalog', productCatalog);
+app.use('/contact', contact);
+app.use('/about', about);
 app.use('/mainAdmin', mainAdmin)
 app.use('/mainUser', mainUser);
 app.use('/insertForm', insertForm);
 app.use('/viewInventory', viewInventory);
 app.use('/logout', logout);
+app.use('/login', login);
 app.use(express.static("public"));
 
 
@@ -56,20 +65,20 @@ app.post('/', function(req, res) {
         request.query(query, function(err, row) {
             if(err) {
                 req.flash('message', 'Something went wrong, please try again');
-                res.redirect('/');
+                res.redirect('/login');
             }
             if(row.recordsets[0].length == 0) {
                 req.flash('message', 'Username and/or Password is incorrect. Please try again');
-                res.redirect('/');
+                res.redirect('/login');
             }
             else {
-                req.session.userID = row.recordsets[0][0].userID;
-                req.session.isAdmin = row.recordsets[0][0].isAdmin;
+                var session = req.session;
+                session.user = row.recordsets[0][0].userID;
                 if(row.recordsets[0][0].isAdmin == 1) {
-                    res.redirect('mainAdmin');
+                    res.render('mainAdmin', {userID: session.user});
                 }
                 else {
-                    res.redirect('mainUser');
+                    res.render('mainUser', {userID: session.user});
                 }
             }
         })
@@ -87,7 +96,10 @@ dboperation.getUsers().then(res => {
 });
 
 
-const port = 5500;
+const port = process.env.PORT || 3000
+
+
+
 
 app.listen(port, () => console.log("Listening on port " + port));
 
