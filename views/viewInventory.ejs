@@ -1,6 +1,18 @@
-<%- include('./partials/header') %>
-<div class="table-responsive">
-      <table class="table table-striped table-hover">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Inventory</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <%if(isAdmin == 1) {%>
+      <%- include('./partials/headerAdmin') %>
+    <%}%>
+    <%if(isAdmin == 0) {%>
+      <%- include('./partials/headerUser') %>
+    <%}%>
+      <table class="table">
         <thead>
           <tr>
             <th>ID</th>
@@ -8,11 +20,6 @@
             <th>Type</th>
             <th>Price</th>
             <th>Quantity</th>
-            <th>
-              <a href="/insertForm">
-                <button class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add new</button>
-              </a>
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -32,5 +39,5 @@
         </tbody>
       </table>
     </div>
-  </div>
-<%- include('./partials/footer') %>
+  </body>
+</html>

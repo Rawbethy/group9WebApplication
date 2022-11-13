@@ -6,7 +6,6 @@ var sql = require('mssql');
 /* GET insert product page. */
 router.get('/', function(req, res, next) {
     var query = "SELECT * FROM [dbo].[products];";
-    var userID = req.session.user;
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();
@@ -18,8 +17,7 @@ router.get('/', function(req, res, next) {
                 req.flash('message', 'No Data in Inventory');
             }
             else {
-                console.log(req.session.user);
-                res.render('productCatalog', {data: rows.recordsets[0], userID: userID});
+                res.render('productCatalog', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
             }
         })
     })

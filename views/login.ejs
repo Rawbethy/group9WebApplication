@@ -1,29 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="stylesheets/loginCSS.css">
+</head>
+<body>
+    <form action='/login' method="post">
+      
+        <div class="container">
+          <label for="uname"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+          <% if(message.length > 0) { %>
+            <div class = "alert" role = "alert">
+                <%= message %>
+            </div>
+          <%} %>
+          <button type="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
 
-<%- include('./partials/header') %>
-
-<div class="container-fluid border col-lg-4 col-md-5 mt-5 p-4 shadow-sm" >	
-    <form method="post" action="/Login?handler=Login">
-        <center>
-            <h1><i class="fa fa-user"></i></h1>
-            <h3>Log In</h3>
-            <div>Sweat Shop</div>
-        </center>
-        <br>
+        <div class="container" style="background-color:#f1f1f1">
+          <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+      </form>
     
-        <div class="mb-3">
-          <input autocomplete="off" name="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="Email" autofocus required>
-        </div> 
-
-        <div class="input-group mb-3">
-          <span class="input-group-text" id="basic-addon1">Password</span>
-          <input name="password" type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" required>
-        </div>
-
-        <br>
-        <div class="row">
-            <button class="btn btn-primary" style="font-size: 20px;">Sign in</button>
-        </div>
-        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8MjrWCEO5XFGvLc32d5SexxjYkkKpkD1BZPahOOy52Ri2QxwQxfPKRZqICVlYuJ9RPbYmPmDx8Nrtc_QJI6epOxO7QOfCz3oqV9Hs72lxM1VPehGWw9DAlQqLDGP4_ly5K78WEeHr3o0GAV5PCbpjCU">
-    </form>
-</div>
-<%- include('./partials/footer') %>
+</body>
+</html>

@@ -16,13 +16,8 @@ var insertForm = require('./routes/insertForm');
 var viewInventory = require('./routes/viewInventory');
 var mainAdmin = require('./routes/mainAdmin');
 var mainUser = require('./routes/mainUser');
-var logout = require('./routes/logout');
-var contact = require('./routes/contact');
-var about = require('./routes/about');
 var login = require('./routes/login');
-
-
-
+var logout = require('./routes/logout');
 
 app.use(bodyParser.urlencoded({ extended: true })); 
 app.use(bodyParser.json());
@@ -43,19 +38,17 @@ app.use(flash());
 
 
 app.use('/', index)
+app.use('/login', login);
+app.use('/logout', logout);
 app.use('/productCatalog', productCatalog);
-app.use('/contact', contact);
-app.use('/about', about);
 app.use('/mainAdmin', mainAdmin)
 app.use('/mainUser', mainUser);
 app.use('/insertForm', insertForm);
 app.use('/viewInventory', viewInventory);
-app.use('/logout', logout);
-app.use('/login', login);
 app.use(express.static("public"));
 
 
-app.post('/', function(req, res) {
+app.post('/login', function(req, res) {
     let username = req.body.username;
     let password = req.body.password;
     var query = "SELECT * FROM [dbo].[users] WHERE username = \'"+username+"\' AND pword = \'"+password+"\';"
@@ -72,13 +65,13 @@ app.post('/', function(req, res) {
                 res.redirect('/login');
             }
             else {
-                var session = req.session;
-                session.user = row.recordsets[0][0].userID;
+                req.session.userID = row.recordsets[0][0].userID;
+                req.session.isAdmin = row.recordsets[0][0].isAdmin;
                 if(row.recordsets[0][0].isAdmin == 1) {
-                    res.render('mainAdmin', {userID: session.user});
+                    res.redirect('mainAdmin');
                 }
                 else {
-                    res.render('mainUser', {userID: session.user});
+                    res.redirect('mainUser');
                 }
             }
         })
@@ -96,10 +89,7 @@ dboperation.getUsers().then(res => {
 });
 
 
-const port = process.env.PORT || 3000
-
-
-
+const port = 5500;
 
 app.listen(port, () => console.log("Listening on port " + port));
 

@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var session = require('express-session');
 
-
-/* GET login page. */
+/* GET Home page. */
 router.get('/', function(req, res, next) {
-    var userID = req.session.user
-    res.render('mainUser', { title: 'Home Page', userID: userID});
+    res.render('mainUser', { title: 'Home Page', userID: req.session.userID, isAdmin: req.session.isAdmin});
 });
 
 module.exports = router;

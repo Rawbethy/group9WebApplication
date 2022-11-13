@@ -4,8 +4,7 @@ var router = express.Router();
 
 /* GET insert product page. */
 router.get('/', function(req, res, next) {
-    var userID = req.session.user
-    res.render('insertForm', { title: 'Insert Products', userID: userID});
+    res.render('insertForm', { title: 'Insert Products', userID: req.session.userID, isAdmin: req.session.isAdmin});
 });
 
 module.exports = router;
