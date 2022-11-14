@@ -8,12 +8,7 @@
     <link rel="stylesheet" href="stylesheets/main.css">
 </head>
 <body>
-    <%if(isAdmin == 1) {%>
-        <%- include('./partials/headerAdmin') %>
-    <%}%>
-    <%if(isAdmin == 0) {%>
-        <%- include('./partials/headerUser') %>
-    <%}%>
+    <%- include('./partials/headerAdmin') %>
     <style>
         body {
             background-image: url("images/main-background.jpg");

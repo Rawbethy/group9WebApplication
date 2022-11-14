@@ -31,8 +31,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({
     secret: 'secret',
     cookie: {maxAge : 60000},
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true
 }));
 app.use(flash());
 
@@ -83,6 +83,15 @@ app.post('/insertForm', (req, res) => {
     var query = "INSERT INTO [dbo].[products] VALUES(\'"+req.body.productName+"\', \'"+req.body.productType+"\', \'"+req.body.productDesc+"\', "+req.body.price+", "+req.body.productQuantity+", "+req.body.discount+");";
     dboperation.insertQuery(query);
 });
+
+app.post('/addToCart', (req, res) => {
+    console.log(req.body);
+    productID = req.body.productID;
+    userID = req.body.userID;
+    var query = "INSERT INTO [dbo].[shoppingCart] VALUES("+userID+", "+productID+", 1);"
+    console.log(query);
+    res.render('index', {userID: userID, isAdmin: null});
+})
 
 dboperation.getUsers().then(res => {
     console.log(res);

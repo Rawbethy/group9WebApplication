@@ -9,15 +9,27 @@ router.get('/', function(req, res, next) {
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();
-        request.query(query, function(err, rows) {
+        request.query(query, function(err, rows1) {
             if(err) {
-                res.redirect('/mainAdmin');
+                res.send(err);
             }
-            if(rows.length == 0) {
+            if(rows1.length == 0) {
                 req.flash('message', 'No Data in Inventory');
             }
             else {
-                res.render('productCatalog', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
+                if(!req.session.userID) {
+                    var query = "SELECT * FROM [dbo].[visitors] WHERE sessionID = '"+req.sessionID+"';";
+                    request.query(query, function(err, rows2) {
+                        if(err) {
+                            res.send(err);
+                        }
+                        var userID = rows2.recordsets[0][0].customerID;
+                        res.render('productCatalog', {data: rows1.recordsets[0], userID: userID, isAdmin: null});
+                    })
+                }  
+                else{
+                    res.render('productCatalog', {data: rows1.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin})
+                } 
             }
         })
     })

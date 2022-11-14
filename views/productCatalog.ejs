@@ -10,11 +10,11 @@
 <body>
     <%if(isAdmin == null) {%>
         <%- include('./partials/headerVisitor') %>
-    <%}%>
-    <%if(isAdmin == 1) {%>
+    <%}
+    if(isAdmin == 1) {%>
         <%- include('./partials/headerAdmin') %>
-    <%}%>
-    <%if(isAdmin == 0) {%>
+    <%}
+    if(isAdmin == 0) {%>
         <%- include('./partials/headerUser') %>
     <%}%>
         <%if(data.length) { %>
@@ -23,7 +23,11 @@
                     <h3><%=data[i].fullname%></h3>
                     <p class="price"><%=data[i].price%></p>
                     <p><%=data[i].prodDesc%></p>
-                    <p><button>Add to Cart</button></p>
+                    <form action='/addToCart' method = 'post'>
+                        <button class="btn" type="submit">Add to Cart</button>
+                        <input type="hidden" name="productID" value="<%= data[i].productID%>">
+                        <input type="hidden" name="userID" value="<%= userID %>">
+                    </form>
                 </div>
             <%}%>
         <%}%>
