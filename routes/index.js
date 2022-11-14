@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
             }
             if(rows.recordsets[0].length == 0) {
                 var query = "INSERT INTO [dbo].[visitors] (sessionID) VALUES('"+req.sessionID+"');"
-                request.query(query, function(err, rows) {
+                request.query(query, function(err) {
                     if(err) {
                         res.send(err);
                     }

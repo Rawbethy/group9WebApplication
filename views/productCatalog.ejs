@@ -17,13 +17,19 @@
     if(isAdmin == 0) {%>
         <%- include('./partials/headerUser') %>
     <%}%>
+    <% if(message.length > 0) { %>
+        <div class = "alert" role = "alert">
+            <h2><%= message %></h2>
+        </div>
+      <%} %>
         <%if(data.length) { %>
             <%for(var i = 0; i< data.length; i++) {%>
                 <div class="card">
-                    <h3><%=data[i].fullname%></h3>
+                    <h3><%=data[i].fullName%></h3>
                     <p class="price"><%=data[i].price%></p>
                     <p><%=data[i].prodDesc%></p>
-                    <form action='/addToCart' method = 'post'>
+                    <p>ProductID = <%= data[i].productID%></p>
+                    <form action='/viewItem' method = 'post'>
                         <button class="btn" type="submit">Add to Cart</button>
                         <input type="hidden" name="productID" value="<%= data[i].productID%>">
                         <input type="hidden" name="userID" value="<%= userID %>">

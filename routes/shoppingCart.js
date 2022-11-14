@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET contact page. */
 router.get('/', function(req, res, next) {
-  res.render('contact', { title: 'Contact', isAdmin: req.session.isAdmin});
+  res.render('shoppingCart', { title: 'Shopping Cart', userID: req.session.userID, isAdmin: req.session.isAdmin});
 });
 
 module.exports = router;

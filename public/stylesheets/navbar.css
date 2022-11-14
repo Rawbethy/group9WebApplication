@@ -25,3 +25,14 @@
 .myNav li a.active {
     background-color: #3786E1;
 }
+
+.cart-img {
+    width: 100%;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.cart-img img {
+    height: 22px;
+    display: inline-block;
+}

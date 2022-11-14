@@ -5,7 +5,7 @@ var sql = require('mssql');
 
 /* GET insert product page. */
 router.get('/', function(req, res, next) {
-    var query = "SELECT * FROM [dbo].[products];";
+    var query = "SELECT DISTINCT productID, fullName, price, prodDesc FROM [dbo].[products];";
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();
@@ -24,11 +24,11 @@ router.get('/', function(req, res, next) {
                             res.send(err);
                         }
                         var userID = rows2.recordsets[0][0].customerID;
-                        res.render('productCatalog', {data: rows1.recordsets[0], userID: userID, isAdmin: null});
+                        res.render('productCatalog', {data: rows1.recordsets[0], userID: userID, isAdmin: null, message: req.flash('message')});
                     })
                 }  
                 else{
-                    res.render('productCatalog', {data: rows1.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin})
+                    res.render('productCatalog', {data: rows1.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin, message: req.flash('message')})
                 } 
             }
         })
