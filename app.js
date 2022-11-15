@@ -97,52 +97,69 @@ app.post('/viewItem', (req, res) => {
 
 app.post('/addToCart', (req, res) => {
     productID = req.body.productID;
-    userID = req.session.userID;
-    isAdmin = req.session.isAdmin;
-    var query = "SELECT * FROM [dbo].[shoppingCart] WHERE userID = "+userID+" AND productID = "+productID+";";
+    userID = req.body.userID;
+    isAdmin = req.body.isAdmin;
     sql.connect(config, function(err) {
         if(err) res.send(err);
         var request = new sql.Request();
-        request.query(query, function(err, row) {
-            if(err) res.send(err);
-            if(row.recordsets[0].length == 0) {
-                var query = "INSERT INTO [dbo].[shoppingCart] (userID, productID, numItems) VALUES("+userID+", "+productID+", 1);"
+        if(!isAdmin) {
+            var query = "SELECT * FROM [dbo].[shoppingCart] WHERE productID = "+productID+" AND customerID = "+userID+";";
+            var request = new sql.Request();
+            request.query(query, function(err, row) {
                 if(err) res.send(err);
-                var request = new sql.Request();
-                request.query(query, function(err) {
-                    if(err) res.send(err);
-                    else {
-                        if(isAdmin == 1) {
+                if(row.recordsets[0].length == 0) {
+                    var query = "INSERT INTO [dbo].[shoppingCart] (customerID, productID, numItems) VALUES("+userID+", "+productID+", 1);"
+                    var request = new sql.Request();
+                    request.query(query, function(err) {
+                        if(err) res.send(err);
+                        else {
                             req.flash('message', 'Successfully added to cart');
                             res.redirect('productCatalog');
                         }
-                        if(isAdmin == 0) {
+                    })
+                }
+                else {
+                    var query = "UPDATE [dbo].[shoppingCart] SET numItems = numItems + 1 WHERE customerID = "+userID+" AND productID = "+productID+";";
+                    var request = new sql.Request();
+                    request.query(query, function(err) {
+                        if(err) res.send(err);
+                        else {
+                            req.flash('message', 'Successfully updated cart');
+                            res.redirect('productCatalog');
+                        }
+                    })
+                }
+            })
+        }
+        else {
+            var query = "SELECT * FROM [dbo].[shoppingCart] WHERE productID = "+productID+" AND userID = "+userID+";";
+            var request = new sql.Request();
+            request.query(query, function(err, row) {
+                if(err) res.send(err);
+                if(row.recordsets[0].length == 0) {
+                    var query = "INSERT INTO [dbo].[shoppingCart] (userID, productID, numItems) VALUES("+userID+", "+productID+", 1);"
+                    var request = new sql.Request();
+                    request.query(query, function(err) {
+                        if(err) res.send(err);
+                        else {
                             req.flash('message', 'Successfully added to cart');
                             res.redirect('productCatalog');
                         }
-                    }
-                })
-
-            }
-            else {
-                var query = "UPDATE [dbo].[shoppingCart] SET numItems = numItems + 1 WHERE userID = "+userID+" AND productID = "+productID+";";
-                if(err) res.send(err);
-                var request = new sql.Request();
-                request.query(query, function(err) {
-                    if(err) res.send(err);
-                    else {
-                        if(isAdmin == 1) {
+                    })
+                }
+                else {
+                    var query = "UPDATE [dbo].[shoppingCart] SET numItems = numItems + 1 WHERE userID = "+userID+" AND productID = "+productID+";";
+                    var request = new sql.Request();
+                    request.query(query, function(err) {
+                        if(err) res.send(err);
+                        else {
                             req.flash('message', 'Successfully updated cart');
                             res.redirect('productCatalog');
                         }
-                        if(isAdmin == 0) {
-                            req.flash('message', 'Successfully updated cart');
-                            res.redirect('productCatalog');
-                        }
-                    }
-                })
-            }
-        })
+                    })
+                }
+            })
+        }
     })
 })
 
