@@ -5,7 +5,7 @@ var sql = require('mssql');
 
 /* GET insert product page. */
 router.get('/', function(req, res, next) {
-    var query = "SELECT DISTINCT productID, fullName, price, prodDesc FROM [dbo].[products];";
+    var query = "SELECT DISTINCT fullName, prodDesc FROM [dbo].[products];";
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%- include('./_adminheader') %>
+
+  <head>
+    <title>Inventory</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(data.length){ for(var i = 0; i< data.length; i++) {%>
+          <tr>
+            <th scope="row"><%= (i+1) %></th>
+            <td><%= data[i].state%></td>
+          </tr>
+          <% } }else{ %>
+          <tr>
+            <td><%=data.length%></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

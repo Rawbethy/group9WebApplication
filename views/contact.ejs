@@ -1,27 +1,28 @@
-<%if(isAdmin == null) {%>
-    <%- include('./partials/headerVisitor') %>
-<%}
-if(isAdmin == 1) {%>
-    <%- include('./partials/headerAdmin') %>
-<%}
-if(isAdmin == 0) {%>
-    <%- include('./partials/headerUser') %>
-<%}%>
-<body>
-    <div class="container">
-            
-        <div class="row">
-            <div class="col-2">
-                <h1>Contact </h1>
-                <p>stufffffffffffffff</p>
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <%if(isAdmin == null) {%>
+            <%- include('./_header') %>
+        <%}
+        if(isAdmin == 1) {%>
+            <%- include('./_adminheader') %>
+        <%}
+        if(isAdmin == 0) {%>
+            <%- include('./_userheader') %>
+        <%}%>
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <h1>Contact </h1>
+                    <p>stufffffffffffffff</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">
+                    <h1>Forgot Password? </h1>
+                    <p>Email blahblahalh@blajah.com</p>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-2">
-                <h1>Forgot Password? </h1>
-                <p>Email blahblahalh@blajah.com</p>
-            </div>
-        </div>
-    </div>
-</body>
-<%- include('./partials/footer') %>
+    </body>
+</html>

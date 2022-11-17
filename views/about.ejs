@@ -1,14 +1,15 @@
-<%if(isAdmin == null) {%>
-    <%- include('./partials/headerVisitor') %>
-<%}
-if(isAdmin == 1) {%>
-    <%- include('./partials/headerAdmin') %>
-<%}
-if(isAdmin == 0) {%>
-    <%- include('./partials/headerUser') %>
-<%}%>
+<!DOCTYPE html>
+<html lang="en">
     <body>
-        
+        <%if(isAdmin == null) {%>
+            <%- include('./_header') %>
+        <%}
+        if(isAdmin == 1) {%>
+            <%- include('./_adminheader') %>
+        <%}
+        if(isAdmin == 0) {%>
+            <%- include('./_userheader') %>
+        <%}%>
         <div class="container">
             
             <div class="row">
@@ -18,5 +19,6 @@ if(isAdmin == 0) {%>
                 </div>
             </div>
         </div>
+    
     </body>
-<%- include('./partials/footer') %>
+</html>

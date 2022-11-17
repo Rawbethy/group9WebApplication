@@ -1,20 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
+  <%- include('./_adminheader') %>
+
   <head>
     <title>Inventory</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
-      <%- include('./partials/headerAdmin') %>
+    <div class="table-filter">
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="filter-group">
+            <label>Filter</label>
+            <select class="form-control">
+              <option>All</option>
+              <option>Price</option>
+              <option>Size</option>
+              <option>Quantity</option>
+            </select>
+          </div>
+        <span class="filter-icon"><i class="fa fa-filter"></i></span>
+      </div>
+    </div>
+    <br>
       <table class="table">
         <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Type</th>
-            <th>Color</th>
             <th>Size</th>
+            <th>Color</th>
             <th>Price</th>
             <th>Quantity</th>
           </tr>
@@ -25,8 +43,8 @@
             <th scope="row"><%= (i+1) %></th>
             <td><%= data[i].fullName%></td>
             <td><%= data[i].productType%></td>
-            <td><%= data[i].color%></td>
             <td><%= data[i].size%></td>
+            <td><%= data[i].color%></td>
             <td><%= data[i].price%></td>
             <td><%= data[i].productQuantity%></td>
           </tr>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="stylesheets/loginCSS.css">
 </head>
 <body>
-    <%- include('./partials/headerAdmin') %>
+    <%- include('./_adminheader') %>
     <form action='/insertForm' method="POST">
         <div class="container">
           <label for="productName"><b>Product Name</b></label>
@@ -20,11 +20,11 @@
           <label for="productDesc"><b>Product Description</b></label>
           <input type="text" placeholder="Enter Product Description" name="productDesc" required>
 
-          <label for="productSize"><b>Size</b></label>
-          <input type="text" placeholder="Enter Product Size" name="productSize" required>
+          <label for="size"><b>Product Size</b></label>
+          <input type="text" placeholder="Enter Product Size" name="size" required>
 
-          <label for="productColor"><b>Product Color</b></label>
-          <input type="text" placeholder="Enter Product Color" name="productColor" required>
+          <label for="color"><b>Product Color</b></label>
+          <input type="text" placeholder="Enter Product Color" name="color" required>
 
           <label for="price"><b>Product Price</b></label>
           <input type="text" placeholder="Enter Product Price" name="price" required>
@@ -35,8 +35,13 @@
           <label for="discount"><b>Initial Discount</b></label>
           <input type="text" placeholder="Enter Product Discount" name="discount" required>
       
-          <button type = "submit"><a href="/main">Insert</a></button>
+          <button type = "submit"><a href="/insertForm">Insert</a></button>
         </div>
+        <% if(message.length > 0) { %>
+          <div class = "alert" role = "alert">
+              <%= message %>
+          </div>
+        <%} %>
       
         <div class="container" style="background-color:#f1f1f1">
           <a href='/mainAdmin'>Go Back</a>

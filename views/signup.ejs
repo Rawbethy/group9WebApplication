@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Signup</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+</head>
+
+<body>
+    <h2>Signup</h2>
+    <form action="/signup" method="POST">
+        <dev>
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Username" id="username" name="username" required>
+        </dev>
+
+        <dev>
+            <label for="email"><b>Email</b></label>
+            <input type="email" placeholder="Email" id="email" name="email" required>
+        </dev>
+
+        <dev>
+            <label for="pword"><b>Password</b></label>
+            <input type ="password" placeholder="Password" id="pword" name="pword" required>
+        </dev>
+
+        <dev>
+            <label for="pwordConfirmation"><b>Password Confirmation</b></label>
+            <input type="password" placeholder="Password Confirmation" id="pwordConfirmation" name="pwordConfirmation" required>
+        </dev>
+
+        <% if(message.length > 0) { %>
+            <div class = "alert" role = "alert">
+                <%= message %>
+            </div>
+        <%} %>
+
+        <button>Submit</button>
+    </form>
+
+    <h4>Already have an account? <a href="/login">Login here</a></h4>
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="stylesheets/loginCSS.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 </head>
 <body>
     <form action='/login' method="post">
@@ -22,14 +22,18 @@
             </div>
           <%} %>
           <button type="submit">Login</button>
-          <label>
+          <label for="check">
             <input type="checkbox" checked="checked" name="remember"> Remember me
           </label>
+
+          <h4>Dont have an account yet? <a href="/signup">Signup here</a></h4>
+
+          <span class="psw">Forgot <a href="#">password?</a></span>
+          <div>
+            <span class="GoBack"><a href='/'>Go Back</a></span>
+          </div>
         </div>
 
-        <div class="container" style="background-color:#f1f1f1">
-          <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
       </form>
     
 </body>

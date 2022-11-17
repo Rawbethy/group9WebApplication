@@ -5,7 +5,7 @@ var sql = require('mssql');
 
 /* GET insert product page. */
 router.get('/', function(req, res, next) {
-    var query = "SELECT * FROM [dbo].[products] ORDER BY fullName, size DESC, color;";
+    var query = "SELECT state FROM [dbo].[users] GROUP BY state;";
     sql.connect(config, function(err) {
         if(err) console.log(err);
         var request = new sql.Request();
@@ -13,12 +13,12 @@ router.get('/', function(req, res, next) {
             if(err) {
                 res.redirect('mainAdmin');
             }
-            if(rows.length == 0) {
+            if(rows.length2 == 0) {
                 req.flash('message', 'No Data in Inventory');
                 res.redirect('mainAdmin');
             }
             else {
-                res.render('viewInventory', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
+                res.render('geoReport', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
             }
         })
     })

@@ -1,34 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
+  <%- include('./_userheader') %>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group9OnlineStore</title>
-    <link rel="stylesheet" href="stylesheets/main.css">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 </head>
+
 <body>
-    <%- include('./partials/headerUser') %>
-    <style>
-        body {
-            background-image: url("images/main-background.jpg");
-            height: 100%;
-            background-attachment: fixed;
-            background-size: cover;
-            background-repeat: no-repeat;
-        }
-    </style>
-    <div class="container">
-        <div class="row">
-            <div class="col-2">
-                <h1>Give Your Workout <br>A New Style!</h1>
-                <p>Success isn't always about greatness, It's about consistency. <br> 
-                    Consistent hard work gains 
-                    success. <br> Greateness will come. Also the userID is <%=userID%></p>
-            </div>
-        </div>
-    </div>
 
 
+
+  <div class="container">
+      
+      <div class="row">
+          <div class="col-2">
+              <h1>Give Your Workout <br>A New Style!</h1>
+              <p>Success isn't always about greatness, It's about consistency. <br> 
+                  Consistent hard work gains 
+                  success. <br> Greateness will come Also userID is <%=userID%></p>
+          </div>
+      </div>
+  </div>
 </body>
+<body>
+  <style>
+      body {
+          background-image: url("images/main-background.jpg");
+          height: 100%;
+          background-attachment: fixed;
+          background-size: cover;
+          background-repeat: no-repeat;
+      }
+  </style>
+  </body>
+
 </html>
