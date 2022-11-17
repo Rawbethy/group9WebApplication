@@ -86,24 +86,34 @@
                 <h4>Cart
                 <span class="price" style="color:black">
                     <i class="fa fa-shopping-cart"></i>
-                    <b><%=data.length%></b>
+                    <%if(data.length) {
+                      var totalNum = 0;
+                      for(var i = 0; i < data.length; i++) {
+                        totalNum = totalNum + data[i].numItems;
+                      }
+                    }%>
+                    <b><%=totalNum%></b>
                 </span>
                 </h4>
                 <%if(data.length) { %>
                     <% var total = 0;%>
                     <%for(var i = 0; i < data.length; i++) {%>
-                        <p><%=data[i].fullName%> x<%=data[i].numItems%><span class="price"><%=data[i].price%></span></p>
+                      <% var itemTotal = data[i].price * data[i].numItems; %>
+                        <p><%=data[i].fullName%> x<%=data[i].numItems%><span class="price">$<%=itemTotal%></span></p>
                         <%total = total + data[i].numItems*data[i].price;%>
                     <%}%>
                 <%}%>
                 <hr>
-                <p>Total <span class="price" style="color:black"><b>$<%=total%></b></span></p>
+                <p>Sub Total <span class="price" style="color:black"><b>$<%=total%></b></span></p>
                 <% var taxAmount = total*.0825; %>
                 <% total = total + taxAmount; %>
                 <% total = total.toFixed(2); %>
                 <% taxAmount = taxAmount.toFixed(2); %>
+                <p>Sales Tax <span class="price" style="color:black"><b>$<%=taxAmount%></b></span></p>
+                <p>Total <span class="price" style="color:black"><b>$<%=total%></b></span></p>
                 <input type="hidden" name="total" value="<%=total%>">
                 <input type="hidden" name="taxAmount" value="<%=taxAmount%>">
+                <input type="hidden" name="userID" value="<%=userID%>">
             </div>
         </div>
     </div>   

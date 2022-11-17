@@ -161,23 +161,23 @@ app.post('/insertForm', (req, res) => {
                 res.send(err);
             }
             if(row1.recordsets[0].length == 0) {
-                var query = "INSERT INTO [dbo].[products] (fullName, productType, prodDesc, size, color, price, productQuantity, discount) VALUES('"+req.body.productName+"', '"+req.body.productType+"', '"+req.body.productDesc+"', '"+req.body.size+"', '"+req.body.color+"', "+req.body.price+", "+req.body.productQuantity+", "+req.body.discount+");";
-                request.query(query, function(err) {
-                    if(err) res.send(err);
-                    var query = "SELECT * FROM [dbo].[suppliers] WHERE supplierProdType = '"+req.body.productType+"';";
-                    request.query(query, function(err, row2) {
-                        if(err) {
-                            res.send(err);
-                        }
-                        if(row2.recordsets[0].length == 0) {
-                            req.flash('message', 'Product successfully entered into database');
-                            res.render('insertSupplier', { title: 'Insert Supplier', data: req.body, message: req.flash('message')});
-                        }
-                        else {
+                var query = "SELECT * FROM [dbo].[suppliers] WHERE supplierProdType = '"+req.body.productType+"';";
+                request.query(query, function(err, row2) {
+                    if(err) {
+                        res.send(err);
+                    }
+                    if(row2.recordsets[0].length == 0) {
+                        req.flash('message', 'Product successfully entered into database, no known supplier. Please enter supplier');
+                        res.render('insertSupplier', { title: 'Insert Supplier', data: req.body, message: req.flash('message')});
+                    }
+                    else {
+                        var query = "INSERT INTO [dbo].[products] (fullName, productType, prodDesc, size, color, price, productQuantity, discount, supplierID) VALUES('"+req.body.productName+"', '"+req.body.productType+"', '"+req.body.productDesc+"', '"+req.body.size+"', '"+req.body.color+"', "+req.body.price+", "+req.body.productQuantity+", "+req.body.discount+", "+row2.recordsets[0][0].supplierID+");";
+                        console.log(query);
+                        request.query(query, function(err) {
                             req.flash('message', 'Product successfully entered into database');
                             res.render('insertForm', {message: req.flash('message')});
-                        }
-                    })
+                        })
+                    }
                 })
             }
             else {
@@ -293,14 +293,27 @@ app.post('/checkoutForm', (req, res) => {
         if(err) {
             res.send(err);
         }
-        var query = "SELECT * FROM [dbo].[payments] WHERE paymentNum = '"+req.body.cardnumber+"' AND paymentCVV = '"+req.body.cvv+"';";
+        var query = "SELECT * FROM [dbo].[payments] WHERE paymentNum = '"+req.body.cardnumber+"' AND paymentCVV = '"+req.body.cvv+"' AND paymentName = '"+req.body.cardname+"';";
         var request = new sql.Request();
         request.query(query, function(err, row) {
             if(err) {
                 res.send(err);
             }
             if(row.recordsets[0].length == 0) {
-                if(!req.session.isAdmin) {
+                if(req.session.isAdmin == 0) {
+                    var request = new sql.Request();
+                    var query = "SELECT shoppingCart.userID, shoppingCart.productID, shoppingCart.numItems, products.fullName, products.price FROM shoppingCart INNER JOIN products ON shoppingCart.productID = products.productID WHERE userID = "+req.body.userID+";";
+                    request.query(query, function(err, rows3) {
+                        if(err) {
+                            res.send(err);
+                        }
+                        else {
+                            req.flash('message', 'Payment information does not exist, please try again');
+                            res.render('checkout', { title: 'Checkout', data: rows3.recordsets[0], userID: req.body.userID, isAdmin: req.session.isAdmin, message: req.flash('message')});
+                        }
+                    })
+                }
+                else {
                     var request = new sql.Request();
                     var query = "SELECT * FROM [dbo].[visitors] WHERE sessionID = '"+req.sessionID+"';";
                     request.query(query, function(err, rows1) {
@@ -321,71 +334,79 @@ app.post('/checkoutForm', (req, res) => {
                         }
                     })
                 }
-                if(req.session.isAdmin == 0) {
-                    var request = new sql.Request();
-                    var query = "SELECT shoppingCart.userID, shoppingCart.productID, shoppingCart.numItems, products.fullName, products.price FROM shoppingCart INNER JOIN products ON shoppingCart.productID = products.productID WHERE userID = "+req.session.userID+";";
-                    request.query(query, function(err, rows3) {
-                        if(err) {
-                            res.send(err);
-                        }
-                        else {
-                            req.flash('message', 'Payment information does not exist, please try again');
-                            res.render('checkout', { title: 'Checkout', data: rows3.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin, message: req.flash('message')});
-                        }
-                    })
-                }
             }
             else {
-                if(!req.session.isAdmin) {
-                    var query = "INSERT INTO [dbo].[orders] (customerID, streetname, city, state, zcode, country, taxAmount, orderAmount) VALUES("+req.session.userID+", '"+req.body.address+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.zip+"', '"+req.body.country+"', "+req.body.taxAmount+", "+req.body.total+");";
+                var query = "INSERT INTO [dbo].[orders] (userID, streetname, city, state, zcode, country, taxAmount, orderAmount) VALUES("+req.body.userID+", '"+req.body.address+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.zip+"', '"+req.body.country+"', "+req.body.taxAmount+", "+req.body.total+");";
+                var request = new sql.Request();
+                request.query(query, function(err) {
+                    if(err) {
+                        res.send(err);
+                    }
+                    var query = "SELECT * FROM [dbo].[orders] WHERE userID = "+req.body.userID+" AND taxAmount = "+req.body.taxAmount+" AND orderAmount = "+req.body.total+" ORDER BY orderID DESC;";
                     var request = new sql.Request();
-                    request.query(query, function(err) {
+                    request.query(query, function(err, row1) {
                         if(err) {
                             res.send(err);
                         }
-                        var query = "SELECT * FROM [dbo].[orders] WHERE customerID = "+req.session.userID+" AND taxAmount = "+req.body.taxAmount+" AND orderAmount = "+req.body.total+";";
+                        var query = "SELECT shoppingCart.userID, shoppingCart.productID, shoppingCart.numItems, products.fullName, products.price FROM shoppingCart INNER JOIN products ON shoppingCart.productID = products.productID WHERE userID = "+req.body.userID+";";
                         var request = new sql.Request();
-                        request.query(query, function(err, row1) {
+                        request.query(query, function(err, row2) {
                             if(err) {
                                 res.send(err);
                             }
-                            var query = "SELECT shoppingCart.userID, shoppingCart.productID, shoppingCart.numItems, products.fullName, products.price FROM shoppingCart INNER JOIN products ON shoppingCart.productID = products.productID WHERE userID = "+req.session.userID+";";
-                            var request = new sql.Request();
-                            request.query(query, function(err, row2) {
-                                if(err) {
-                                    res.send(err);
-                                }
-                                res.render('thankYouPage', {data: row1.recordsets[0][0], items: row2.recordsets[0], isAdmin: req.session.isAdmin});
-                            })
-                        })
-                    })
-                }
-                if(req.session.isAdmin == 0) {
-                    var query = "INSERT INTO [dbo].[orders] (userID, streetname, city, state, zcode, country, taxAmount, orderAmount) VALUES("+req.session.userID+", '"+req.body.address+"', '"+req.body.city+"', '"+req.body.state+"', '"+req.body.zip+"', '"+req.body.country+"', "+req.body.taxAmount+", "+req.body.total+");";
-                    var request = new sql.Request();
-                    request.query(query, function(err) {
-                        if(err) {
-                            res.send(err);
-                        }
-                        var query = "SELECT * FROM [dbo].[orders] WHERE userID = "+req.session.userID+" AND taxAmount = "+req.body.taxAmount+" AND orderAmount = "+req.body.total+" ORDER BY orderID DESC;";
-                        var request = new sql.Request();
-                        request.query(query, function(err, row1) {
-                            if(err) {
-                                res.send(err);
+                            if(req.body.total > row.recordsets[0][0].balance) {
+                                req.flash('message', 'Insufficient funds, please try another payment');
+                                res.render('checkout', {title: 'Checkout', data: row2.recordsets[0], userID: req.body.userID, isAdmin: req.session.isAdmin, message: req.flash('message')})
                             }
-                            var query = "SELECT shoppingCart.userID, shoppingCart.productID, shoppingCart.numItems, products.fullName, products.price FROM shoppingCart INNER JOIN products ON shoppingCart.productID = products.productID WHERE userID = "+req.session.userID+";";
-                            var request = new sql.Request();
-                            request.query(query, function(err, row2) {
+                            for(var i = 0; i < row2.recordsets[0].length; i++) {
+                                console.log(row2.recordsets[0][i].productID);
+                                var query = "SELECT * FROM [dbo].[orderItems] WHERE productID = "+row2.recordsets[0][i].productID+";";
+                                request.query(query, function(err, row4) {
+                                    console.log(row4.recordsets[0].length);
+                                    if(err) {
+                                        res.send(err);
+                                    }
+                                    if(row4.recordsets[0].length == 0) {
+                                        var query = "INSERT INTO [dbo].[orderItems] VALUES("+row2.recordsets[0][i].productID+", "+row2.recordsets[0][i].numItems+");";
+                                        request.query(query, function(err) {
+                                            if(err) {
+                                                res.send(err);
+                                            }
+                                            var query = "UPDATE [dbo].[products] SET productQuantity = productQuantity - "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
+                                            request.query(query, function(err) {
+                                                if(err) {
+                                                    console.log(err);
+                                                }
+                                            })
+                                        })
+                                    }
+                                    else {
+                                        console.log(row2.recordsets[0][i]);
+                                        var query = "UPDATE [dbo].[orderItems] SET quantity = quantity + "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
+                                        request.query(query, function(err) {
+                                            if(err) {
+                                                res.send(err);
+                                            }
+                                            var query = "UPDATE [dbo].[products] SET productQuantity = productQuantity - "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
+                                            request.query(query, function(err) {
+                                                if(err) {
+                                                    console.log(err);
+                                                }
+                                            })
+                                        })
+                                    }
+                                })
+                            }
+                            var query = "DELETE FROM [dbo].[shoppingCart] WHERE userID = "+req.body.userID+";";
+                            request.query(query, function(err) {
                                 if(err) {
                                     res.send(err);
                                 }
-                                console.log(row1.recordsets[0][0]);
-                                console.log(row2.recordsets[0]);
-                                res.render('thankYouPage', {order: row1.recordsets[0][0], items: row2.recordsets[0], isAdmin: req.session.isAdmin});
+                                res.render('thankYouPage', {order: row1.recordsets[0][0], items: row2.recordsets[0], userID: req.body.userID, isAdmin: req.session.isAdmin});
                             })
                         })
                     })
-                }
+                })
             }
         })
     })
