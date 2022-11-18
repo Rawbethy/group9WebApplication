@@ -358,45 +358,6 @@ app.post('/checkoutForm', (req, res) => {
                                 req.flash('message', 'Insufficient funds, please try another payment');
                                 res.render('checkout', {title: 'Checkout', data: row2.recordsets[0], userID: req.body.userID, isAdmin: req.session.isAdmin, message: req.flash('message')})
                             }
-                            for(var i = 0; i < row2.recordsets[0].length; i++) {
-                                console.log(row2.recordsets[0][i].productID);
-                                var query = "SELECT * FROM [dbo].[orderItems] WHERE productID = "+row2.recordsets[0][i].productID+";";
-                                request.query(query, function(err, row4) {
-                                    console.log(row4.recordsets[0].length);
-                                    if(err) {
-                                        res.send(err);
-                                    }
-                                    if(row4.recordsets[0].length == 0) {
-                                        var query = "INSERT INTO [dbo].[orderItems] VALUES("+row2.recordsets[0][i].productID+", "+row2.recordsets[0][i].numItems+");";
-                                        request.query(query, function(err) {
-                                            if(err) {
-                                                res.send(err);
-                                            }
-                                            var query = "UPDATE [dbo].[products] SET productQuantity = productQuantity - "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
-                                            request.query(query, function(err) {
-                                                if(err) {
-                                                    console.log(err);
-                                                }
-                                            })
-                                        })
-                                    }
-                                    else {
-                                        console.log(row2.recordsets[0][i]);
-                                        var query = "UPDATE [dbo].[orderItems] SET quantity = quantity + "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
-                                        request.query(query, function(err) {
-                                            if(err) {
-                                                res.send(err);
-                                            }
-                                            var query = "UPDATE [dbo].[products] SET productQuantity = productQuantity - "+row2.recordsets[0][i].numItems+" WHERE productID = "+row2.recordsets[0][i].productID+";";
-                                            request.query(query, function(err) {
-                                                if(err) {
-                                                    console.log(err);
-                                                }
-                                            })
-                                        })
-                                    }
-                                })
-                            }
                             var query = "DELETE FROM [dbo].[shoppingCart] WHERE userID = "+req.body.userID+";";
                             request.query(query, function(err) {
                                 if(err) {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Product Form</title>
+    <link rel="stylesheet" href="stylesheets/loginCSS.css">
+</head>
+<body>
+    <%- include('./_adminheader') %>
+    <% if(message.length > 0) { %>
+        <div class = "alert" role = "alert">
+            <%= message %>
+        </div>
+      <%} %>
+    <form action='/insertSupplier' method="POST">
+        <div class="container">
+          <label for="supplierName"><b>Supplier Name</b></label>
+          <input type="text" placeholder="Enter Supplier Name" name="supplierName" required>
+
+          <label for="supplierStreet"><b>Supplier Street Address</b></label>
+          <input type="text" placeholder="Enter Supplier Street Address" name="supplierStreet" required>
+
+          <label for="supplierCity"><b>Supplier City</b></label>
+          <input type="text" placeholder="Enter Supplier City" name="supplierCity" required>
+
+          <label for="supplierState"><b>Supplier State</b></label>
+          <input type="text" placeholder="Enter Supplier State" name="supplierState" required>
+
+          <label for="supplierZipCode"><b>Supplier Zip Code</b></label>
+          <input type="text" placeholder="Enter Supplier Zip Code" name="supplierZipCode" required>
+
+          <label for="supplierCountry"><b>Supplier Country</b></label>
+          <input type="text" placeholder="Enter Supplier Country" name="supplierCountry" required>
+
+          <label for="supplierProdType"><b>Supplier Product Type</b></label>
+          <input type="text" placeholder="Enter Supplier Product Type" name="supplierProdType" value="<%=data.productType%>"required>
+      
+          <button type = "submit"><a href="/insertSupplier">Insert</a></button>
+        </div>
+      
+        <div class="container" style="background-color:#f1f1f1">
+          <a href='/mainAdmin'>Go Back</a>
+        </div>
+      </form>
+</body>
+</html>
