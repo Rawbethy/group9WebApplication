@@ -77,7 +77,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         for(var i = 0; i < items.length; i++) {%>
                                             <tr>
                                                 <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
-                                                    <%=items[i].fullName%>
+                                                    <%=items[i].fullName%> (<%=items[i].color%>, <%=items[i].size%>)
                                                 </td>
                                                 <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 15px 10px 5px 10px;">
                                                     $<%=items[i].price%>
@@ -86,6 +86,12 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         <%}
                                     }%>
                                 <br>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" style="padding-top: 20px;">
+                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding: 5px 10px;">
                                         Sales Tax
@@ -94,12 +100,6 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                         <%=order.taxAmount%>
                                     </td>
                                 </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="left" style="padding-top: 20px;">
-                            <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                     <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;">
                                         TOTAL
@@ -137,7 +137,7 @@ div[style*="margin: 16px 0;"] { margin: 0 !important; }
                                     <tr>
                                         <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;">
                                             <p style="font-weight: 800;">Estimated Delivery Date</p>
-                                            <p><%=order.orderDate%></p>
+                                            <p><%=order.expectedDelivery%></p>
                                         </td>
                                     </tr>
                                 </table>

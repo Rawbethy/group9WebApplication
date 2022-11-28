@@ -11,14 +11,14 @@ router.get('/', function(req, res, next) {
       var request = new sql.Request();
       request.query(query, function(err, rows) {
           if(err) {
-              res.redirect('mainAdmin');
+            return res.redirect('mainAdmin');
           }
           if(rows.length == 0) {
               req.flash('message', 'No Data in Inventory');
-              res.redirect('about');
+              return res.redirect('about');
           }
           else {
-              res.render('about', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
+            return res.render('about', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
           }
       })
   })

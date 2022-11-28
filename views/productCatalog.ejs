@@ -20,20 +20,21 @@
     if(isAdmin == 0) {%>
         <%- include('./_userheader') %>
     <%}%>
-        <%if(data.length) { %>
-            <%for(var i = 0; i< data.length; i++) {%>
-                <div class="card">
-                    <h3><%=data[i].fullName%></h3>
-                    <p class="price"><%=data[i].price%></p>
-                    <p><%=data[i].prodDesc%></p>
-                    <form action='/viewSingleProduct' method='post'>
-                        <button class="btn" type="submit">Select Options</button>
-                        <input type="hidden" name="fullName" value="<%=data[i].fullName%>">
-                        <input type="hidden" name="userID" value="<%=userID%>">
-                        <input type="hidden" name="isAdmin" value="<%=isAdmin%>">
-                    </form>
-                </div>
+    <div class="container1">
+            <%if(data.length) { %>
+                <%for(var i = 0; i< data.length; i++) {%>
+                    <div class="card1">
+                        <h3><%=data[i].fullName%></h3>
+                        <p><%=data[i].prodDesc%></p>
+                        <form action='/viewSingleProduct' method='post'>
+                            <button class="btn" type="submit">Select Options</button>
+                            <input type="hidden" name="fullName" value="<%=data[i].fullName%>">
+                            <input type="hidden" name="userID" value="<%=userID%>">
+                            <input type="hidden" name="isAdmin" value="<%=isAdmin%>">
+                        </form>
+                    </div>
+                <%}%>
             <%}%>
-        <%}%>
+    </div>
 </body>
 </html>

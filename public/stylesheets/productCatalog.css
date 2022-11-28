@@ -1,17 +1,37 @@
-.card {
+.container1 {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+.container2 {
+ padding: auto 
+}
+.card1 {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    margin: auto;
+    width: 280px;
+    padding: 10px;
+    height: auto;
+    display: inline-block;
+    margin-left: 5px;
     text-align: center;
-    font-family: arial;
+    font-family: arial
   }
+
+  .card2 {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: auto;
+    padding: auto;
+    height: auto;
+    text-align: center;
+    font-family: arial
+  }
+
   
   .price {
     color: grey;
     font-size: 22px;
   }
   
-  .card button {
+  .card1 button {
     border: none;
     outline: 0;
     padding: 12px;
@@ -23,6 +43,6 @@
     font-size: 18px;
   }
   
-  .card button:hover {
+  .card1 button:hover {
     opacity: 0.7;
   }

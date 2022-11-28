@@ -20,21 +20,41 @@
     if(isAdmin == 0) {%>
         <%- include('./_userheader') %>
     <%}%>
+    <% if(message.length > 0) { %>
+        <div class = "alert" role = "alert">
+            <%= message %>
+        </div>
+      <%} %>
+    <div class="container2">
+        <div class="card2">
+            <h3>
+                <%=data[0].fullName%>
+            </h3>
+            <p>
+                <%=data[0].prodDesc%>
+            </p>
+            <form action='/addToCart' method='post'>
+                <select name="productColor">
+                    <%for(var i=0; i < colors.length; i++) {%>
+                        <option value="<%=colors[i].color%>">
+                            <%=colors[i].color%>
+                        </option>
+                        <%}%>
+                </select>
+                <select name="productSize">
+                    <%for(var i=0; i < sizes.length; i++) {%>
+                        <option value="<%=sizes[i].size%>">
+                            <%=sizes[i].size%>
+                        </option>
+                        <%}%>
+                </select>
+                <input type="hidden" name="fullName" value="<%=data[0].fullName%>">
+                <input type="hidden" name="userID" value="<%=userID%>">
+                <input type="hidden" name="isAdmin" value="<%=isAdmin%>">
+                <button class="btn" type="submit">Add to Cart</button>
+            </form>
+        </div>
+    </div>
     <div class="GoBack"><a href='/productCatalog'>Go Back</a></div>
-    <%if(data.length) { %>
-        <%for(var i = 0; i< data.length; i++) {%>
-            <div class="card">
-                <h3><%=data[i].fullName%></h3>
-                <p class="price"><%=data[i].price%> <%=data[i].size%> <%=data[i].color%></p>
-                <p><%=data[i].prodDesc%></p>
-                <form action='/addToCart' method='post'>
-                    <button class="btn" type="submit">Add to Cart</button>
-                    <input type="hidden" name="productID" value="<%=data[i].productID%>">
-                    <input type="hidden" name="userID" value="<%=userID%>">
-                    <input type="hidden" name="isAdmin" value="<%=isAdmin%>">
-                </form>
-            </div>
-        <%}%>
-    <%}%>
 </body>
 </html>

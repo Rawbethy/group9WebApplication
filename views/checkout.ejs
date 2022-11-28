@@ -77,7 +77,7 @@
       
               </div>
               <br>
-              <button type = "submit"><a href='/checkout'>Checkout</a></button>
+              <button type = "submit">Checkout</a></button>
           </div>
         </div>
       
@@ -99,12 +99,14 @@
                     <% var total = 0;%>
                     <%for(var i = 0; i < data.length; i++) {%>
                       <% var itemTotal = data[i].price * data[i].numItems; %>
-                        <p><%=data[i].fullName%> x<%=data[i].numItems%><span class="price">$<%=itemTotal%></span></p>
+                        <p><%=data[i].fullName%> (<%=data[i].color%>, <%=data[i].size%>) x<%=data[i].numItems%><span class="price">$<%=itemTotal%></span></p>
                         <%total = total + data[i].numItems*data[i].price;%>
                     <%}%>
                 <%}%>
+                <br>
                 <hr>
-                <p>Sub Total <span class="price" style="color:black"><b>$<%=total%></b></span></p>
+                <br>
+                <p>Sub Total <span class="price" style="color:black"><b>$<%=total.toFixed(2)%></b></span></p>
                 <% var taxAmount = total*.0825; %>
                 <% total = total + taxAmount; %>
                 <% total = total.toFixed(2); %>

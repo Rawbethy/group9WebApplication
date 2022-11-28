@@ -3,7 +3,6 @@ var router = express.Router();
 var config = require('./dbconfig');
 var sql = require('mssql');
 
-/* GET insert product page. */
 router.get('/', function(req, res, next) {
     var query = "SELECT DISTINCT fullName, prodDesc FROM [dbo].[products];";
     sql.connect(config, function(err) {
@@ -14,21 +13,21 @@ router.get('/', function(req, res, next) {
                 res.send(err);
             }
             if(rows1.length == 0) {
-                req.flash('message', 'No Data in Inventory');
+                return req.flash('message', 'No Data in Inventory');
             }
             else {
-                if(!req.session.userID) {
+                if(req.session.customerID != null) {
                     var query = "SELECT * FROM [dbo].[visitors] WHERE sessionID = '"+req.sessionID+"';";
                     request.query(query, function(err, rows2) {
                         if(err) {
                             res.send(err);
                         }
-                        var userID = rows2.recordsets[0][0].customerID;
-                        res.render('productCatalog', {data: rows1.recordsets[0], userID: userID, isAdmin: null, message: req.flash('message')});
+                        var customerID = rows2.recordsets[0][0].customerID;
+                        return res.render('productCatalog', {data: rows1.recordsets[0], customerID: customerID, isAdmin: null, message: req.flash('message')});
                     })
                 }  
                 else{
-                    res.render('productCatalog', {data: rows1.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin, message: req.flash('message')})
+                    return res.render('productCatalog', {data: rows1.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin, message: req.flash('message')})
                 } 
             }
         })

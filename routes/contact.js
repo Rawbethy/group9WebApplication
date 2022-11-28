@@ -5,23 +5,23 @@ var sql = require('mssql');
 
 /* GET contact page. */
 router.get('/', function(req, res, next) {
-  var query = "SELECT * FROM [dbo].[products];";
-  sql.connect(config, function(err) {
-      if(err) console.log(err);
-      var request = new sql.Request();
-      request.query(query, function(err, rows) {
-          if(err) {
-              res.redirect('mainAdmin');
-          }
-          if(rows.length == 0) {
-              req.flash('message', 'No Data in Inventory');
-              res.redirect('contact');
-          }
-          else {
-              res.render('contact', {data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin});
-          }
-      })
-  })
+    var query = "SELECT * FROM [dbo].[products];";
+    sql.connect(config, function (err) {
+        if (err) console.log(err);
+        var request = new sql.Request();
+        request.query(query, function (err, rows) {
+            if (err) {
+                return res.redirect('mainAdmin');
+            }
+            if (rows.length == 0) {
+                req.flash('message', 'No Data in Inventory');
+                return res.redirect('contact');
+            }
+            else {
+                return res.render('contact', { data: rows.recordsets[0], userID: req.session.userID, isAdmin: req.session.isAdmin });
+            }
+        })
+    })
 });
 
 module.exports = router;
